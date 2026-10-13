@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка статуса | Отделение полиции</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="section-title">Проверка статуса обращения</h2>
+        <div class="form-container" style="max-width:600px;">
+            <form th:action="@{/appeals/status}" method="post">
+                <div class="form-group">
+                    <label for="regNumber">Номер обращения</label>
+                    <input type="text" id="regNumber" name="regNumber"
+                           placeholder="ОБ-2025-000001" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Проверить</button>
+            </form>
+
+            <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+            <div th:if="${appeal != null}" class="appeal-card" style="margin-top:30px;">
+                <div class="appeal-meta">
+                    <div><strong>Тема:</strong> <span th:text="${appeal.subject}"></span></div>
+                    <div><strong>Статус:</strong>
+                        <span class="status-badge" th:classappend="'status-' + ${appeal.status}"
+                              th:text="${appeal.status.displayName}"></span>
+                    </div>
+                    <div><strong>Дата:</strong>
+                        <span th:text="${#temporals.format(appeal.createdAt, 'dd.MM.yyyy HH:mm')}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

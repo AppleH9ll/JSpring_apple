@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header">
+    <div class="header-top">
+        <div class="container">
+            <div class="emergency-contact">
+                <a href="tel:102"><i class="fas fa-phone-alt"></i> 102 - Единый номер полиции</a>
+                <a href="tel:112"><i class="fas fa-phone-alt"></i> 112 - Единый номер экстренных служб</a>
+            </div>
+        </div>
+    </div>
+    <div class="header-main">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="logo-text">
+                    <h1>ОТДЕЛЕНИЕ ПОЛИЦИИ <span>ПО ПРИЁМУ ОБРАЩЕНИЙ</span></h1>
+                    <p>Официальный сайт для приёма обращений граждан</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Главная</a></li>
+                    <li><a th:href="@{/appeals/new}">Подать обращение</a></li>
+                    <li><a th:href="@{/appeals/status}">Проверить статус</a></li>
+                    <li sec:authorize="hasAuthority('OFFICER') or hasAuthority('ADMIN')" th:if="${#authorization.expression('hasAnyAuthority(''OFFICER'',''ADMIN'')')}">
+                        <a th:href="@{/officer/appeals}">Кабинет сотрудника</a>
+                    </li>
+                    <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                        <a th:href="@{/admin/dashboard}">Админ</a>
+                    </li>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}">
+                        <a th:href="@{/appeals/my}">Мои обращения</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header-auth">
+                <form th:if="${#authorization.expression('isAuthenticated()')}"
+                      th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-primary">Выйти</button>
+                </form>
+                <a th:unless="${#authorization.expression('isAuthenticated()')}"
+                   th:href="@{/login}" class="btn btn-primary">Войти</a>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи | Админ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="section-title">Управление пользователями</h2>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+        <div class="appeals-table-wrapper">
+            <table class="appeals-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Логин</th>
+                    <th>ФИО</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Роли</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${users}">
+                    <td th:text="${u.idUser}"></td>
+                    <td><strong th:text="${u.username}"></strong></td>
+                    <td th:text="${u.getFullName()}"></td>
+                    <td th:text="${u.email}"></td>
+                    <td th:text="${u.phone}"></td>
+                    <td>
+                        <span th:each="r : ${u.roles}" class="role-chip" th:text="${r}"></span>
+                    </td>
+                    <td>
+                        <span th:if="${u.active}" class="status-badge status-REVIEWED">Активен</span>
+                        <span th:unless="${u.active}" class="status-badge status-REJECTED">Заблокирован</span>
+                    </td>
+                    <td>
+                        <form th:action="@{'/admin/users/' + ${u.idUser} + '/toggle'}" method="post"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-secondary"
+                                    th:text="${u.active} ? 'Заблокировать' : 'Разблокировать'"></button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(users)}">
+                    <td colspan="8" class="empty-row">Пользователей нет</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination" th:if="${totalPages > 1}">
+            <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/admin/users(page=${i})}"
+                   th:classappend="${currentPage == i} ? 'current' : ''"
+                   th:text="${i + 1}"></a>
+            </span>
+        </div>
+
+        <a th:href="@{/admin/dashboard}" class="btn btn-secondary" style="margin-top:20px;">
+            ← Назад в админ-панель
+        </a>
+    </div>
+</section>
+</body>
+</html>

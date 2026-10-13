@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Обращения | Кабинет сотрудника</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="section-title">Обращения граждан</h2>
+        <div class="filter-bar">
+            <a th:href="@{/officer/appeals}" class="filter-btn"
+               th:classappend="${selectedStatus == null} ? 'active' : ''">Все</a>
+            <a th:each="s : ${statuses}"
+               th:href="@{/officer/appeals(status=${s})}"
+               class="filter-btn"
+               th:classappend="${selectedStatus == s} ? 'active' : ''"
+               th:text="${s.displayName}"></a>
+        </div>
+        <div class="appeals-table-wrapper">
+            <table class="appeals-table">
+                <thead>
+                <tr>
+                    <th>Рег. номер</th>
+                    <th>Гражданин</th>
+                    <th>Тема</th>
+                    <th>Тип</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${appeals}">
+                    <td th:text="${a.registrationNumber}"></td>
+                    <td th:text="${a.citizen.getFullName()}"></td>
+                    <td th:text="${a.subject}"></td>
+                    <td th:text="${a.type != null ? a.type.name : '—'}"></td>
+                    <td><span class="status-badge" th:classappend="'status-' + ${a.status}"
+                              th:text="${a.status.displayName}"></span></td>
+                    <td th:text="${#temporals.format(a.createdAt, 'dd.MM.yyyy')}"></td>
+                    <td><a th:href="@{'/officer/appeals/' + ${a.idAppeal}}"
+                           class="btn btn-secondary">Открыть</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(appeals)}">
+                    <td colspan="7" class="empty-row">Обращений не найдено</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+</body>
+</html>

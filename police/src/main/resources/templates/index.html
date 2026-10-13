@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отделение полиции | Приём обращений граждан</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+
+<section class="hero">
+    <div class="container">
+        <h2>Обращение в полицию онлайн</h2>
+        <p>Подайте официальное обращение в органы внутренних дел через наш онлайн-сервис. Быстро, безопасно и без очередей. Ваше обращение будет зарегистрировано и рассмотрено в установленные законом сроки.</p>
+        <div class="hero-buttons">
+            <a th:href="@{/appeals/new}" class="btn btn-primary">Подать обращение</a>
+            <a th:href="@{/appeals/status}" class="btn btn-secondary">Проверить статус обращения</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Наши возможности</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+                <h3>Подача обращений</h3>
+                <p>Возможность подачи заявлений и обращений в полицию онлайн в любое время суток</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-search"></i></div>
+                <h3>Отслеживание статуса</h3>
+                <p>Контроль за рассмотрением вашего обращения по уникальному номеру</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                <h3>Экономия времени</h3>
+                <p>Избавьтесь от необходимости личного визита в отделение полиции</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Конфиденциальность</h3>
+                <p>Все данные защищены и передаются по зашифрованному каналу связи</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" th:text="${totalAppeals}">0</div>
+                <div class="stat-label">Всего обращений</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${newAppeals}">0</div>
+                <div class="stat-label">Новых</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${inProgress}">0</div>
+                <div class="stat-label">В работе</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${reviewed}">0</div>
+                <div class="stat-label">Рассмотрено</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Отделение полиции</h4>
+                <p>Официальный сайт для приёма обращений граждан. Мы обеспечиваем безопасность и правопорядок, оперативно реагируя на обращения граждан.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Контакты</h4>
+                <div class="contact-info">
+                    <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>г. Москва, ул. Полицейская, д. 15</span></div>
+                    <div class="contact-item"><i class="fas fa-phone-alt"></i><span>+7 (495) 123-45-67 (приёмная)</span></div>
+                    <div class="contact-item"><i class="fas fa-envelope"></i><span>contact@police-department.ru</span></div>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Полезные ссылки</h4>
+                <ul>
+                    <li><a href="#">Официальный сайт МВД России</a></li>
+                    <li><a href="#">Правовой портал</a></li>
+                    <li><a href="#">Госуслуги - приём обращений</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Режим работы</h4>
+                <ul>
+                    <li><strong>Приём онлайн:</strong> круглосуточно</li>
+                    <li><strong>Личный приём:</strong> Пн-Пт 9:00-18:00</li>
+                    <li><strong>Телефонная линия:</strong> Пн-Вс 8:00-20:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Отделение полиции по приёму обращений. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

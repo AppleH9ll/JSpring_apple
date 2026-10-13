@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Подача обращения | Отделение полиции</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+
+<section class="complaint-section">
+    <div class="container">
+        <h2 class="section-title">Форма обращения</h2>
+        <div class="form-container">
+            <h3>Подать обращение в полицию</h3>
+            <form th:action="@{/appeals/new}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="subject">Тема обращения *</label>
+                    <input type="text" id="subject" name="subject" required maxlength="200">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="typeId">Тип обращения *</label>
+                        <select id="typeId" name="typeId" required>
+                            <option value="">Выберите тип</option>
+                            <option th:each="t : ${types}" th:value="${t.idType}" th:text="${t.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="departmentId">Отделение</label>
+                        <select id="departmentId" name="departmentId">
+                            <option value="">Не выбрано</option>
+                            <option th:each="d : ${departments}" th:value="${d.idDepartment}" th:text="${d.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="text">Текст обращения *</label>
+                    <textarea id="text" name="text" rows="8" required
+                              placeholder="Подробно опишите ситуацию, укажите место, время, участников события..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Прикрепить файлы (до 10 МБ каждый)</label>
+                    <div class="file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <input type="file" name="files" multiple>
+                        <p>Нажмите для выбора файлов</p>
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consent" required>
+                    <label for="consent">Я даю согласие на обработку персональных данных в соответствии с Федеральным законом №152-ФЗ *</label>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary">Отправить обращение</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="copyright"><p>&copy; 2025 Отделение полиции. Все права защищены.</p></div>
+    </div>
+</footer>
+</body>
+</html>

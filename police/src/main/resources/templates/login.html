@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация | Отделение полиции</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <i class="fas fa-shield-alt"></i>
+            <h1>Отделение полиции</h1>
+            <p>Вход в личный кабинет</p>
+        </div>
+        <div th:if="${param.error}" class="alert alert-error">
+            Неверное имя пользователя или пароль
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            Вы успешно вышли из системы
+        </div>
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label>Логин</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Войти</button>
+        </form>
+        <div class="auth-links">
+            <a th:href="@{/registration}">Регистрация</a> |
+            <a th:href="@{/}">На главную</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

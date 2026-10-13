@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Обращение ' + ${appeal.registrationNumber}"></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="section-title">Обращение <span th:text="${appeal.registrationNumber}"></span></h2>
+        <div class="appeal-card">
+            <div class="appeal-meta">
+                <div><strong>Тема:</strong> <span th:text="${appeal.subject}"></span></div>
+                <div><strong>Тип:</strong> <span th:text="${appeal.type != null ? appeal.type.name : '—'}"></span></div>
+                <div><strong>Отделение:</strong> <span th:text="${appeal.department != null ? appeal.department.name : 'Не назначено'}"></span></div>
+                <div><strong>Статус:</strong>
+                    <span class="status-badge" th:classappend="'status-' + ${appeal.status}"
+                          th:text="${appeal.status.displayName}"></span>
+                </div>
+                <div><strong>Дата подачи:</strong>
+                    <span th:text="${#temporals.format(appeal.createdAt, 'dd.MM.yyyy HH:mm')}"></span>
+                </div>
+                <div th:if="${appeal.officer != null}">
+                    <strong>Сотрудник:</strong> <span th:text="${appeal.officer.getFullName()}"></span>
+                </div>
+            </div>
+            <div class="appeal-text">
+                <h3>Текст обращения</h3>
+                <p th:text="${appeal.text}"></p>
+            </div>
+            <div th:if="${!#lists.isEmpty(appeal.attachments)}" class="appeal-attachments">
+                <h3>Прикреплённые файлы</h3>
+                <ul>
+                    <li th:each="att : ${appeal.attachments}">
+                        <i class="fas fa-paperclip"></i>
+                        <a th:href="@{'/uploads/' + ${att.fileName}}" target="_blank" th:text="${att.fileName}"></a>
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${!#lists.isEmpty(responses)}" class="appeal-responses">
+                <h3>Ответы сотрудников</h3>
+                <div th:each="r : ${responses}" class="response-item">
+                    <div class="response-header">
+                        <strong th:text="${r.officer.getFullName()}"></strong>
+                        <span th:text="${#temporals.format(r.createdAt, 'dd.MM.yyyy HH:mm')}"></span>
+                    </div>
+                    <p th:text="${r.text}"></p>
+                </div>
+            </div>
+        </div>
+        <a th:href="@{/appeals/my}" class="btn btn-secondary">← Назад к списку</a>
+    </div>
+</section>
+</body>
+</html>

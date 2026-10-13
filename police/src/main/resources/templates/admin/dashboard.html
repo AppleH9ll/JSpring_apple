@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="section-title">Административная панель</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" th:text="${totalUsers}">0</div>
+                <div class="stat-label">Пользователей</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${totalAppeals}">0</div>
+                <div class="stat-label">Обращений</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${newAppeals}">0</div>
+                <div class="stat-label">Новых</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${inProgress}">0</div>
+                <div class="stat-label">В работе</div>
+            </div>
+        </div>
+        <div class="admin-nav">
+            <a th:href="@{/admin/users}" class="admin-nav-card">
+                <i class="fas fa-users"></i><span>Пользователи</span>
+            </a>
+            <a th:href="@{/admin/types}" class="admin-nav-card">
+                <i class="fas fa-tags"></i><span>Типы обращений</span>
+            </a>
+            <a th:href="@{/admin/departments}" class="admin-nav-card">
+                <i class="fas fa-building"></i><span>Отделения</span>
+            </a>
+            <a th:href="@{/officer/appeals}" class="admin-nav-card">
+                <i class="fas fa-file-alt"></i><span>Все обращения</span>
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

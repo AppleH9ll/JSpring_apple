@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Обращение ' + ${appeal.registrationNumber}"></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="section-title">Обращение <span th:text="${appeal.registrationNumber}"></span></h2>
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+        <div class="appeal-card">
+            <div class="appeal-meta">
+                <div><strong>Гражданин:</strong> <span th:text="${appeal.citizen.getFullName()}"></span></div>
+                <div><strong>Телефон:</strong> <span th:text="${appeal.citizen.phone}"></span></div>
+                <div><strong>Email:</strong> <span th:text="${appeal.citizen.email}"></span></div>
+                <div><strong>Адрес:</strong> <span th:text="${appeal.citizen.address}"></span></div>
+                <div><strong>Тема:</strong> <span th:text="${appeal.subject}"></span></div>
+                <div><strong>Тип:</strong> <span th:text="${appeal.type != null ? appeal.type.name : '—'}"></span></div>
+                <div><strong>Статус:</strong>
+                    <span class="status-badge" th:classappend="'status-' + ${appeal.status}"
+                          th:text="${appeal.status.displayName}"></span>
+                </div>
+            </div>
+            <div class="appeal-text">
+                <h3>Текст обращения</h3>
+                <p th:text="${appeal.text}"></p>
+            </div>
+        </div>
+
+        <div class="appeal-card">
+            <h3>Изменить статус</h3>
+            <form th:action="@{'/officer/appeals/' + ${appeal.idAppeal} + '/status'}" method="post"
+                  style="display:flex;gap:15px;align-items:flex-end;flex-wrap:wrap;">
+                <div class="form-group" style="flex:1;">
+                    <label>Новый статус</label>
+                    <select name="status" required>
+                        <option th:each="s : ${statuses}" th:value="${s}"
+                                th:text="${s.displayName}"
+                                th:selected="${s == appeal.status}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+        </div>
+
+        <div class="appeal-card">
+            <h3>Ответ гражданину</h3>
+            <form th:action="@{'/officer/appeals/' + ${appeal.idAppeal} + '/response'}" method="post">
+                <div class="form-group">
+                    <textarea name="text" rows="5" required
+                              placeholder="Введите текст официального ответа..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить ответ</button>
+            </form>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(responses)}" class="appeal-card">
+            <h3>История ответов</h3>
+            <div th:each="r : ${responses}" class="response-item">
+                <div class="response-header">
+                    <strong th:text="${r.officer.getFullName()}"></strong>
+                    <span th:text="${#temporals.format(r.createdAt, 'dd.MM.yyyy HH:mm')}"></span>
+                </div>
+                <p th:text="${r.text}"></p>
+            </div>
+        </div>
+
+        <a th:href="@{/officer/appeals}" class="btn btn-secondary">← Назад к списку</a>
+    </div>
+</section>
+</body>
+</html>

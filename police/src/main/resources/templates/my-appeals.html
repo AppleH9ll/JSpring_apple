@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои обращения | Отделение полиции</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/police.css}">
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="section-title">Мои обращения</h2>
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div class="appeals-table-wrapper">
+            <table class="appeals-table">
+                <thead>
+                <tr>
+                    <th>Рег. номер</th>
+                    <th>Тема</th>
+                    <th>Тип</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${appeals}">
+                    <td th:text="${a.registrationNumber}"></td>
+                    <td th:text="${a.subject}"></td>
+                    <td th:text="${a.type != null ? a.type.name : '—'}"></td>
+                    <td><span class="status-badge" th:classappend="'status-' + ${a.status}"
+                              th:text="${a.status.displayName}"></span></td>
+                    <td th:text="${#temporals.format(a.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td><a th:href="@{'/appeals/' + ${a.idAppeal}}" class="btn btn-secondary">Открыть</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(appeals)}">
+                    <td colspan="6" class="empty-row">У вас пока нет обращений</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination" th:if="${totalPages > 1}">
+            <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/appeals/my(page=${i})}"
+                   th:classappend="${currentPage == i} ? 'current' : ''"
+                   th:text="${i + 1}"></a>
+            </span>
+        </div>
+    </div>
+</section>
+</body>
+</html>

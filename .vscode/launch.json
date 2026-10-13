@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PoliceApplication<police>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.example.police.PoliceApplication",
+            "projectName": "police",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
