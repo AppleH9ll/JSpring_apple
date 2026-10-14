@@ -3,6 +3,7 @@ package org.example.police.controller.rest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.example.police.dto.AppealRequest;
 import org.example.police.model.*;
 import org.example.police.service.*;

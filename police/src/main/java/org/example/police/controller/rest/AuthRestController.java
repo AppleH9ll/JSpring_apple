@@ -3,6 +3,7 @@ package org.example.police.controller.rest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+
 import org.example.police.dto.AuthRequest;
 import org.example.police.dto.AuthResponse;
 import org.example.police.dto.ErrorResponse;
